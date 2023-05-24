@@ -5,6 +5,7 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TasksRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
+import { Not } from 'typeorm';
 
 @Injectable() //Injectible makes it possible to inject this service into other components(makes it singleton)
 export class TasksService {
@@ -47,17 +48,13 @@ export class TasksService {
   createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     return this.tasksRepository.createTask(createTaskDto);
   }
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   const { title, description } = createTaskDto;
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN,
-  //   };
-  //   this.tasks.push(task);
-  //   return task;
-  // }
+  async deleteTaskById(id: string): Promise<void> {
+    const result = this.tasksRepository.delete(id);
+
+    if ((await result).affected === 0) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
+  }
   // deleteTaskById(id: string): void {
   //   const found = this.getTaskById(id);
   //   this.tasks = this.tasks.filter((task) => {
