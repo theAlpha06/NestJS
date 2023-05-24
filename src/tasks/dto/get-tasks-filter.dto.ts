@@ -1,7 +1,12 @@
 /* eslint-disable prettier/prettier */
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { TaskStatus } from '../task.model';
 
 export class GetTasksFilterDto {
-  status?: TaskStatus;
-  search?: string;
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  status: TaskStatus;
+  @IsOptional()
+  @IsString()
+  search: string;
 }
