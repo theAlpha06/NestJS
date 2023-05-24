@@ -45,12 +45,12 @@ export class TasksController {
     return this.tasksService.deleteTaskById(id);
   }
 
-  // @Patch('/:id/status')
-  // updateTaskStatus(
-  //   @Param('id') id: string,
-  //   @Body() updateTaskStatus: UpdateTaskStatus,
-  // ): Task[] {
-  //   const { status } = updateTaskStatus;
-  //   return this.tasksService.updateTaskStatus(id, status);
-  // }
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() updateTaskStatus: UpdateTaskStatus,
+  ): Promise<Task> {
+    const { status } = updateTaskStatus;
+    return this.tasksService.updateTaskStatus(id, status);
+  }
 }
